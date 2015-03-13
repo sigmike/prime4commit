@@ -7,11 +7,11 @@ With Peer4Commit you can add projects from GitHub and donate Peercoins to the on
 
 What is a Commit?
 -----------------
-Each time someone adds changes to the source code of a supported project, he receives 1% of the project balance. A set of changes is called a "commit". Here is an example commit for Peercoin v0.4: https://github.com/ppcoin/ppcoin/commit/5941effd0085dd26ce9b793ec09dcaffae8e5678
+Each time someone adds changes to the source code of a supported project, they receive 1% of the project balance. A set of changes is called a "commit". Here is an example commit for Peercoin v0.4: https://github.com/ppcoin/ppcoin/commit/5941effd0085dd26ce9b793ec09dcaffae8e5678
 
 How do I Receive a Tip for my Commit?
 -------------------------------------
-We use the email address included in the commit to identify the author and notify him. To receive the tip, the author must follow the link in the email he received and set his Peercoin address. If he doesn't do that within 1 month, the tip goes back to the project balance.
+We use the email address included in the commit to identify the author and notify them. To receive the tip, the author must follow the link in the email they received and set their Peercoin address. If they don't do that within 1 month, the tip goes back to the project balance.
 
 How do I Donate to a Project I Like?
 ------------------------------------
