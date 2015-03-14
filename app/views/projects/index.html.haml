@@ -12,6 +12,7 @@
     %thead
       %tr
         %th Repository
+        %th Language
         %th Description
         %th Watchers
         %th Balance
@@ -25,8 +26,9 @@
               %br
               %nobr
                 %small
-                  forked from
+                  Forked from:
                   = link_to project.source_full_name, project.source_github_url, target: '_blank'
+          %td= project.language
           %td= project.description
           %td= project.watchers_count
           %td= btc_human project.available_amount_cache

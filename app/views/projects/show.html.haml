@@ -3,7 +3,7 @@
   = @project.name
 - content_for :description do
   = @project.description
-  
+
 .row
   .col-md-12
     %h1
@@ -14,6 +14,13 @@
           = link_to "Change project settings", edit_project_path(@project), class: "btn btn-primary"
         - if can? :decide_tip_amounts, @project and @project.has_undecided_tips?
           = link_to "Decide tip amounts", decide_tip_amounts_project_path(@project), class: "btn btn-warning"
+    .project-subhead
+      - unless @project.source_full_name.blank?
+        Forked from:
+        = link_to @project.source_full_name, @project.source_github_url, target: '_blank'
+        |
+      Language:
+      = @project.language
 
 .row
   .col-md-4
@@ -40,7 +47,7 @@
             = @project.bitcoin_address
           %p
             = image_tag qrcode_project_path(@project, format: :svg), alt: @project.bitcoin_address, class: 'project qrcode'
-          %p #{100-(CONFIG["our_fee"]*100).round}% of deposited funds will be used to tip for new commits. 
+          %p #{100-(CONFIG["our_fee"]*100).round}% of deposited funds will be used to tip for new commits.
   .col-md-8
     - unless @project.description.blank?
       .well.well-sm= @project.description
@@ -111,11 +118,11 @@
 
     - if current_user
       - if current_user.bitcoin_address.blank?
-        Just 
+        Just
         = link_to 'tell us', current_user
-        your primecoin address.      
+        your primecoin address.
     - else
-      Just check your email or 
+      Just check your email or
       %a{href: user_omniauth_authorize_path(:github)} Sign In.
 
     %h4 Promote #{@project.full_name}
