@@ -6,7 +6,7 @@
     %meta{content: "", name: "description"}/
     %meta{content: "", name: "author"}/
     %link{href: image_path("primecoin.png"), rel: "shortcut icon"}/
-    
+
     %title= "Prime4commit — " + (content_for?(:title) ? yield(:title) : "Contribute to Open Source")
 
     %meta{name: 'description', content: (content_for?(:title) ? yield(:title) : "Donate primecoins to open source projects or make commits and get tips for it.")}
@@ -16,7 +16,7 @@
 
     = stylesheet_link_tag    "application", media: "all", data: { "turbolinks-track" => true }
     = javascript_include_tag "application", data: { "turbolinks-track" => true }
-    
+
     = csrf_meta_tags
   %body
     :javascript
@@ -48,7 +48,8 @@
         %p
           ©
           = link_to 'Prime4commit', 'http://prime4commit.com/', target: '_blank'
-          2014. Source code is available at #{link_to('github', 'https://github.com/sigmike/prime4commit', target: '_blank')},
+          = "2014-#{Time.new.year}."
+          Source code is available at #{link_to('github', 'https://github.com/sigmike/prime4commit', target: '_blank')},
           based on #{link_to "Tip4commit", "http://tip4commit.com/"}.
           You can support its development with
           = link_to('peercoins', 'http://peer4commit.com/projects/16')
