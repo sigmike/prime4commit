@@ -15,6 +15,10 @@
         - if can? :decide_tip_amounts, @project and @project.has_undecided_tips?
           = link_to "Decide tip amounts", decide_tip_amounts_project_path(@project), class: "btn btn-warning"
     .project-subhead
+      - unless @project.source_full_name.blank?
+        Forked from:
+        = link_to @project.source_full_name, @project.source_github_url, target: '_blank'
+        |
       Language:
       = @project.language
 
