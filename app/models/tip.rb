@@ -48,7 +48,7 @@ class Tip < ActiveRecord::Base
 
   scope :with_address,  -> { joins(:user).where.not('users.bitcoin_address' => [nil, ""]) }
   def with_address?
-    user.bitcoin_address.present?
+    user.present? and user.bitcoin_address.present?
   end
 
   scope :decided,       -> { where.not(amount: nil) }
@@ -83,7 +83,7 @@ class Tip < ActiveRecord::Base
   attr_accessor :decided_free_amount
 
   def notify_user
-    if amount and amount > 0 and user.bitcoin_address.blank? and !user.unsubscribed
+    if amount and amount > 0 and user and user.bitcoin_address.blank? and !user.unsubscribed
       if user.notified_at.nil? or user.notified_at < 30.days.ago
         UserMailer.new_tip(user, self).deliver
         user.touch :notified_at
