@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     raise "Blank token" if params[:token].blank?
     
     if @user.confirmed?
-      redirect_to new_session_path(User), notice: "Your account is already confirmed. Please sign in to set your Peercoin address."
+      redirect_to new_session_path(User), notice: "Your account is already confirmed. Please sign in to set your Primecoin address."
       return
     end
 

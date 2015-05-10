@@ -11,7 +11,7 @@ Official site: http://prime4commit.com/
 Development
 ===========
 
-To run peer4commit in development mode follow these instructions:
+To run prime4commit in development mode follow these instructions:
 
 * Install [Ruby](https://www.ruby-lang.org/en/downloads/) 1.9+
 
@@ -24,8 +24,8 @@ gem install bundler
 
 * Clone the repository
 ```
-git clone git@github.com:sigmike/peer4commit.git
-cd peer4commit
+git clone git@github.com:sigmike/prime4commit.git
+cd prime4commit
 ```
 
 * Install the sqlite3 development libraries

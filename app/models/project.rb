@@ -231,7 +231,7 @@ class Project < ActiveRecord::Base
 
   def generate_address!
     return if bitcoin_address.present? or address_label.present?
-    self.address_label = "peer4commit-#{id}"
+    self.address_label = "prime4commit-#{id}"
     self.bitcoin_address = BitcoinDaemon.instance.get_new_address(address_label)
     save(validate: false)
   end

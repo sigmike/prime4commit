@@ -25,10 +25,10 @@ Feature: On projects not holding tips, a tip is created for each new commit
       | mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1 | 9.9005 |
 
     And an email should have been sent to "alicia@example.com"
-    When I click on the "Set your password and Peercoin address" link in the email
+    When I click on the "Set your password and Primecoin address" link in the email
     And I fill "Password" with "password"
     And I fill "Password confirmation" with "password"
-    And I fill "Peercoin address" with "mubmzLrtTgDE2WrHkiwSFKuTh2VTSXboYK"
+    And I fill "Primecoin address" with "mubmzLrtTgDE2WrHkiwSFKuTh2VTSXboYK"
     And I click on "Save"
     Then I should see "Information saved"
     And the user with email "alicia@example.com" should have "password" as password

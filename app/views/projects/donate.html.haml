@@ -12,7 +12,7 @@
 
     - if @donation_address.persisted? and @donation_address.donation_address.present?
       %p
-        To donate to #{link_to @project.name, @project} send Peercoins to this address: #{@donation_address.donation_address}
+        To donate to #{link_to @project.name, @project} send Primecoins to this address: #{@donation_address.donation_address}
     - else
       To donate to this project you can provide a return address. This address will be used if Peer4Commit or the fundraiser ever need to send funds back to you. In the future, this address may also be used to cast a vote. For a vote to be valid, it will need to be signed by the address that the donation was sent from.
 
@@ -22,4 +22,4 @@
 
 
       %hr
-      %p If you want to donate without providing a return address, you can just send Peercoins to this address: #{@project.bitcoin_address}
+      %p If you want to donate without providing a return address, you can just send Primecoins to this address: #{@project.bitcoin_address}
