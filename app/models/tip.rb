@@ -110,17 +110,11 @@ class Tip < ActiveRecord::Base
 
   def self.build_from_commit(commit)
     if commit.username.present?
-      user = User.enabled.where(nickname: commit.username).first_or_initialize(email: commit.email)
+      user = User.enabled.where(nickname: commit.username).first
     elsif commit.email =~ Devise::email_regexp
-      user = User.enabled.where(email: commit.email).first_or_initialize
-    else
-      return nil
+      user = User.enabled.where(email: commit.email).first
     end
-    if user.new_record?
-      raise "Invalid email address" unless user.email =~ Devise::email_regexp
-      user.skip_confirmation_notification!
-      user.save!
-    end
+    return nil unless user
     new(user_id: user.id, reason: commit)
   end
 

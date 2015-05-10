@@ -53,14 +53,6 @@ class DistributionsController < ApplicationController
         user.save!
       end
       @tips << Tip.new(user: user)
-    elsif params[:user] and params[:user][:email].present?
-      user = User.enabled.where(email: params[:user][:email]).first_or_initialize
-      if user.new_record?
-        raise "Invalid email address" unless user.email =~ Devise::email_regexp
-        user.skip_confirmation_notification!
-        user.save!
-      end
-      @tips << Tip.new(user: user)
     elsif params[:user] and params[:user][:identifier].present?
       user = User.enabled.find_by(identifier: params[:user][:identifier])
       @tips << Tip.new(user: user)

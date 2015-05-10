@@ -71,20 +71,6 @@ Feature: A project collaborator distribute to commit authors
     And I select the commit recipients "Commits not rewarded"
     Then the distribution form should have these recipients:
       | recipient        | reason                    | amount |
-      | yugo@example.com | Commit BBB: Tiny change   |        |
-
-    And I fill the amount to "yugo@example.com" with "0.5"
-    And I save the distribution
-
-    Then I should see these distribution lines:
-      | recipient        | reason                    | address                   | amount | percentage |
-      | yugo@example.com | Commit BBB: Tiny change   |                           |    0.5 |        100 |
-    And I should see "Total amount: 0.50 XPM"
-    And there should be 0 email sent
-    When I click on "Send email request to provide an address"
-    Then I should see "Request sent"
-    And there should be 1 email sent
-    And an email should have been sent to "yugo@example.com"
 
   @javascript
   Scenario: Distribute to a single commit

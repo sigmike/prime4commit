@@ -56,9 +56,25 @@ When(/^I add the commit "(.*?)" to the recipients$/) do |arg1|
   end
 end
 
+def parse_recipient(recipient)
+  case recipient
+  when /\A<(.+) identifier>\Z/
+    user = User.find_by(email: $1)
+    user.identifier
+  else
+    recipient
+  end
+end
+
+def within_recipient_row(recipient)
+  within "#recipients tr", text: /^#{Regexp.escape parse_recipient(recipient)}/ do
+    yield
+  end
+end
+
 Given(/^I fill the amount to "(.*?)" with "(.*?)"$/) do |arg1, arg2|
   begin
-    within "#recipients tr", text: /^#{Regexp.escape arg1}/ do
+    within_recipient_row(arg1) do
       fill_in "Amount", with: arg2
     end
   rescue
@@ -69,26 +85,27 @@ Given(/^I fill the amount to "(.*?)" with "(.*?)"$/) do |arg1, arg2|
 end
 
 Given(/^I fill the comment to "(.*?)" with "(.*?)"$/) do |arg1, arg2|
-  within "#recipients tr", text: /^#{Regexp.escape arg1}/ do
+  within_recipient_row(arg1) do
     fill_in "Comment", with: arg2
   end
 end
 
 When(/^I remove the recipient "(.*?)"$/) do |arg1|
-  within "#recipients tr", text: /^#{Regexp.escape arg1}/ do
+  within_recipient_row(arg1) do
     check "Remove"
   end
 end
 
 Then(/^I should see these distribution lines:$/) do |table|
   table.hashes.each do |row|
+    recipient = parse_recipient(row["recipient"])
     begin
-      tr = find("#distribution-show-page tbody tr", text: row["recipient"])
+      tr = find("#distribution-show-page tbody tr", text: /^#{Regexp.escape recipient}/)
     rescue
       puts "Rows: " + all("#distribution-show-page tbody tr").map(&:text).inspect
       raise
     end
-    tr.find(".recipient").text.should eq(row["recipient"])
+    tr.find(".recipient").text.should eq(recipient)
     tr.find(".address").text.should eq(row["address"]) if row["address"]
     tr.find(".reason").text.should eq(row["reason"]) if row["reason"]
     if row["amount"]
@@ -117,7 +134,7 @@ Then(/^the distribution form should have these recipients:$/) do |table|
     begin
       tr = find("#distribution-form #recipients tr", text: row["recipient"])
     rescue
-      puts "Rows: " + all("#distribution-form #recipients tr").map(&:text).inspect
+      p rows: all("#distribution-form #recipients tr").map(&:text)
       p errors: all(".alert.alert-danger").map(&:text)
       raise
     end

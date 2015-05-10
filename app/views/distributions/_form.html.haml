@@ -31,14 +31,6 @@
     .col-md-3
       .panel.panel-default
         .panel-heading
-          %h3.panel-title email address
-        .panel-body
-          .input-group
-          = bootstrap_form_for User.new, url: new_recipient_form_project_distributions_path(@project) do |f|
-            = f.email_field :email, hide_label: true, append: content_tag(:button, "Add", class: "btn btn-default add-recipient-button")
-    .col-md-3
-      .panel.panel-default
-        .panel-heading
           %h3.panel-title GitHub user
         .panel-body
           = bootstrap_form_for User.new, url: new_recipient_form_project_distributions_path(@project) do |f|
