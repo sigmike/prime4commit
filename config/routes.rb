@@ -19,7 +19,6 @@ T4c::Application.routes.draw do
     end
     member do
       post :send_tips_back
-      post :send_email_address_request
       get :set_password_and_address
       patch :set_password_and_address
     end

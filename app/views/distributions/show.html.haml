@@ -23,9 +23,6 @@
           %td.address
             - if tip.user.try(:bitcoin_address).present?
               = tip.user.bitcoin_address
-            - else
-              - if tip.user.try(:email).present? and can? :update, @distribution
-                = button_to "Send email request to provide an address", send_email_address_request_user_path(tip_id: tip.id, return_url: request.url), class: "btn btn-default"
           %td.amount
             - if tip.amount
               = btc_human tip.amount

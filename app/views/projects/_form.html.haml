@@ -7,6 +7,6 @@
     = fields.text_area :text, rows: 10, label: "Tipping policies"
   = f.text_field :full_name, label: "GitHub URL (optional)"
   = f.form_group do
-    = f.check_box :auto_tip_commits, {label: "Automatically send 1% of the balance to each commit added to the default branch of the GitHub project"}
+    = f.check_box :auto_tip_commits, {label: "Automatically send 1% of the balance to each commit added to the default branch of the GitHub project. It only works if the user has registered an account on this site."}
   = f.form_group do
     = f.primary "Save"

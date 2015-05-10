@@ -87,8 +87,18 @@ Given(/^(\d+) new commits$/) do |arg1|
   end
 end
 
+Given(/^(\d+) new commits by "([^"]*)"$/) do |arg1, arg2|
+  arg1.to_i.times do
+    add_new_commit(Digest::SHA1.hexdigest(SecureRandom.hex), author: {login: arg2}, commit: {author: {email: "#{arg2}@example.com"}})
+  end
+end
+
 Given(/^a new commit "([^"]*?)"$/) do |arg1|
   add_new_commit(arg1)
+end
+
+Given(/^a new commit "([^"]*?)" by "([^"]*)"$/) do |arg1, arg2|
+  add_new_commit(arg1, author: {login: arg2}, commit: {author: {email: "#{arg2}@example.com"}})
 end
 
 Given(/^the project holds tips$/) do

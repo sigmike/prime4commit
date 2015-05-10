@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action except: [:show, :login, :index, :send_email_address_request, :set_password_and_address, :suggestions] do
+  before_action except: [:show, :login, :index, :set_password_and_address, :suggestions] do
     @user = User.enabled.where(id: params[:id]).first
     if current_user
       if current_user != @user
@@ -46,14 +46,6 @@ class UsersController < ApplicationController
       tip.touch :refunded_at
     end
     redirect_to @user, notice: 'All your tips have been refunded to their project'
-  end
-
-  def send_email_address_request
-    tip = Tip.find(params[:tip_id])
-    authorize! :update, tip.distribution
-    tip.user.reset_confirmation_token!
-    UserMailer.address_request(tip, current_user).deliver
-    redirect_to params[:return_url], notice: "Request sent"
   end
 
   def set_password_and_address

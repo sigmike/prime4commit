@@ -11,6 +11,7 @@ Feature: Fundraiser can change the GitHub repository linked to a project
     And our fee is "0"
     And a deposit of "500"
     Given a GitHub user "bob" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+    And a GitHub user "alice" who has set his address to "mi9SLroAgc8eUNuLwnZmdyqWdShbNtvr3n"
 
     When the project tips are built from commits
     Then the project should have these tips:

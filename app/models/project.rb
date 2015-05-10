@@ -103,25 +103,9 @@ class Project < ActiveRecord::Base
     end
     user ||= User.enabled.find_by(email: email)
 
-    if (next_tip_amount > 0) &&
-        Tip.find_by(commit: commit.sha).nil?
-
-      # create user
-      unless user
-        generated_password = Devise.friendly_token.first(8)
-        user = User.new(
-          email: email,
-          password: generated_password,
-          name: commit.commit.author.name,
-        )
-        user.skip_confirmation_notification!
-      end
-
-      if nickname.present? and user.nickname.blank?
-        user.nickname = nickname
-      end
-
-      user.save!
+    if (next_tip_amount > 0) and
+        Tip.find_by(commit: commit.sha).nil? and
+        user
 
       if hold_tips
         amount = nil

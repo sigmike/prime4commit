@@ -13,11 +13,18 @@ Feature: A project collaborator can change the tips of commits
     And the message of commit "BBB" is "Tiny change"
     And the author of commit "CCC" is "gaal"
 
-  Scenario: Without anything modified
+  Scenario: Without anything modified and known users
+    Given a GitHub user "yugo" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+    And a GitHub user "gaal" who has set his address to "mi9SLroAgc8eUNuLwnZmdyqWdShbNtvr3n"
     When the new commits are read
     Then there should be a tip of "5" for commit "BBB"
     And there should be a tip of "4.95" for commit "CCC"
-    And there should be 2 email sent
+    And there should be 0 email sent
+
+  Scenario: Without anything modified and unknown users
+    When the new commits are read
+    Then there should be 0 tip
+    And there should be 0 email sent
 
   Scenario: A collaborator wants to alter the tips
     Given I'm logged in as "seldon"
@@ -26,6 +33,9 @@ Feature: A project collaborator can change the tips of commits
     And I uncheck "Automatically send 1% of the balance to each commit added to the default branch of the GitHub project"
     And I click on "Save"
     Then I should see "The project has been updated"
+
+    Given a GitHub user "yugo" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+    And a GitHub user "gaal" who has set his address to "mi9SLroAgc8eUNuLwnZmdyqWdShbNtvr3n"
 
     When the new commits are read
     Then the tip amount for commit "BBB" should be undecided
@@ -43,7 +53,7 @@ Feature: A project collaborator can change the tips of commits
     And I click on "Send the selected tip amounts"
     Then there should be a tip of "0.5" for commit "BBB"
     And the tip amount for commit "CCC" should be undecided
-    And there should be 1 email sent
+    And there should be 0 email sent
 
     When the email counters are reset
     And I choose the amount "Free: 0%" on commit "CCC"
@@ -51,6 +61,21 @@ Feature: A project collaborator can change the tips of commits
     Then there should be a tip of "0.5" for commit "BBB"
     And there should be a tip of "0" for commit "CCC"
     And there should be 0 email sent
+
+  Scenario: A collaborator wants to alter the tips without known users
+    Given I'm logged in as "seldon"
+    And I go to the project page
+    And I click on "Edit project"
+    And I uncheck "Automatically send 1% of the balance to each commit added to the default branch of the GitHub project"
+    And I click on "Save"
+    Then I should see "The project has been updated"
+
+    When the new commits are read
+    Then there should be 0 tip
+    And there should be 0 email sent
+
+    When I go to the project page
+    And I should not see "Decide tip amounts"
 
   Scenario: A non collaborator does not see the settings button
     Given I'm logged in as "yugo"
@@ -92,8 +117,9 @@ Feature: A project collaborator can change the tips of commits
       | yugo   | 1                        |
 
   Scenario: A collaborator sends large amounts in tips
-    Given 20 new commits
-    And a new commit "last"
+    Given a GitHub user "yugo" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+    Given 20 new commits by "yugo"
+    And a new commit "last" by "yugo"
     And the project holds tips
     When the new commits are read
     And I'm logged in as "seldon"
@@ -102,10 +128,11 @@ Feature: A project collaborator can change the tips of commits
     And I choose the amount "Huge: 5%" on all commits
     And I click on "Send the selected tip amounts"
     Then there should be a tip of "25" for commit "BBB"
-    And there should be a tip of "8.08833862" for commit "last"
+    And there should be a tip of "8.51404066" for commit "last"
 
   Scenario Outline: A collaborator changes the amount of a tip on another project
     Given the project holds tips
+    Given a GitHub user "yugo" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
     And the new commits are read
     And a project "fake"
     And a deposit of "500"
@@ -125,6 +152,8 @@ Feature: A project collaborator can change the tips of commits
 
   Scenario: A collaborator sends a free amount as tip
     Given the project holds tips
+    And a GitHub user "yugo" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+    And a GitHub user "gaal" who has set his address to "mi9SLroAgc8eUNuLwnZmdyqWdShbNtvr3n"
     And the new commits are read
     And I'm logged in as "seldon"
     And I go to the project page
@@ -136,6 +165,8 @@ Feature: A project collaborator can change the tips of commits
 
   Scenario: A collaborator sends too big free amounts
     Given the project holds tips
+    And a GitHub user "yugo" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+    And a GitHub user "gaal" who has set his address to "mi9SLroAgc8eUNuLwnZmdyqWdShbNtvr3n"
     And the new commits are read
     And I'm logged in as "seldon"
     And I go to the project page
@@ -155,6 +186,8 @@ Feature: A project collaborator can change the tips of commits
 
   Scenario: A collaborator changes the amount of an already decided tip
     Given the project holds tips
+    And a GitHub user "yugo" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+    And a GitHub user "gaal" who has set his address to "mi9SLroAgc8eUNuLwnZmdyqWdShbNtvr3n"
     And the new commits are read
     And I'm logged in as "seldon"
     And I go to the project page
