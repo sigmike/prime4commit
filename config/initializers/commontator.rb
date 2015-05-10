@@ -46,7 +46,7 @@ Commontator.configure do |config|
   # comments will become a hyperlink pointing to this path
   # The main application's routes can be accessed through the app_routes object
   # Default: lambda { |user, app_routes| '' } (no link)
-  config.user_link_proc = lambda { |user, app_routes| Rails.application.routes.url_helpers.user_path(user) }
+  config.user_link_proc = lambda { |user, app_routes| user ? Rails.application.routes.url_helpers.user_path(user) : nil }
 
   # user_avatar_proc
   # Type: Proc

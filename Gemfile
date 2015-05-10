@@ -9,7 +9,7 @@ gem 'mysql2', group: :mysql
 gem 'pg', group: :postgresql
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '~> 4.0.2'
 gem 'haml-rails'
 gem "less-rails"
 
