@@ -38,7 +38,7 @@
               - elsif tip.undecided?
                 The amount of the tip has not been decided yet
               - elsif tip.free?
-              - elsif tip.user.bitcoin_address.blank?
+              - elsif tip.user and tip.user.bitcoin_address.blank?
                 User didn't specify withdrawal address
               - elsif tip.project.amount_to_pay < CONFIG["min_payout"].to_d * COIN
                 The amount of tips for this project is below withdrawal threshold
