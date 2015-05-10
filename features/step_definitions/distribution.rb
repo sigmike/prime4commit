@@ -166,7 +166,7 @@ end
 
 When(/^I set my address to "(.*?)"$/) do |arg1|
   step 'I go to edit my profile'
-  fill_in "Peercoin address", with: arg1
+  fill_in "Primecoin address", with: arg1
   if has_field?("Current password")
     fill_in "Current password", with: "password"
   end

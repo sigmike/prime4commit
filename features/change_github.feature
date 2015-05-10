@@ -27,11 +27,11 @@ Feature: Fundraiser can change the GitHub repository linked to a project
       | ccc | bob    | bobby@example.com  |
     And the project tips are built from commits
     Then the project should have these tips:
-      | commit | amount   |
-      | 123    | 5.0      |
-      | abc    | 4.95     |
-      | 333    | 4.9005   |
-      | aaa    | 4.851495 |
-      | bbb    | 4.802981 |
-      | ccc    | 4.754951 |
+      | commit | amount     |
+      | 123    | 5.0        |
+      | abc    | 4.95       |
+      | 333    | 4.9005     |
+      | aaa    | 4.851495   |
+      | bbb    | 4.80298005 |
+      | ccc    | 4.75495025 |
 
