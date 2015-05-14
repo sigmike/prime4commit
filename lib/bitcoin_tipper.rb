@@ -18,7 +18,7 @@ class BitcoinTipper
       tips = project.tips_to_pay
       amount = tips.sum(&:amount).to_d
       if amount > CONFIG["min_payout"].to_d * COIN
-        distribution = Distribution.create(project_id: project.id)
+        distribution = Distribution.create!(project_id: project.id)
         tips.each do |tip|
           tip.update_attribute :distribution_id, distribution.id
         end
