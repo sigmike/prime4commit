@@ -18,7 +18,10 @@ class BitcoinTipper
       tips = project.tips_to_pay
       amount = tips.sum(&:amount).to_d
       if amount > CONFIG["min_payout"].to_d * COIN
-        distribution = Distribution.create!(project_id: project.id)
+        distribution = Distribution.new(project_id: project.id)
+        unless distribution.save
+          raise "Unable to create distribution on project #{project.id}: #{distribution.errors.full_messages.inspect}"
+        end
         tips.each do |tip|
           tip.update_attribute :distribution_id, distribution.id
         end
