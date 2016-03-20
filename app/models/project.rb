@@ -45,7 +45,7 @@ class Project < ActiveRecord::Base
       end
     rescue Octokit::BadGateway, Octokit::NotFound, Octokit::InternalServerError,
            Errno::ETIMEDOUT, Faraday::Error::ConnectionFailed, Octokit::Forbidden,
-           Octokit::Conflict => e
+           Octokit::Conflict, Octokit::ClientError => e
       Rails.logger.info "Project ##{id}: #{e.class} happened"
     rescue StandardError => e
       if CONFIG["airbrake"]
