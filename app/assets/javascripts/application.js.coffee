@@ -14,4 +14,4 @@ $(document).on "ready page:change", ->
     window.addthis_share = null
     
     # Finally, load addthis
-    $.getScript "http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-526425ac0ea0780b"
+    $.getScript "https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-526425ac0ea0780b"
