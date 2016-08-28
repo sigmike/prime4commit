@@ -223,4 +223,8 @@ class Project < ActiveRecord::Base
   def to_label
     name.presence || id.to_s
   end
+
+  def not_sent_distributions_amount
+    distributions.select { |d| d.is_error or !d.sent? }.map(&:tips).flatten.map(&:amount).compact.sum
+  end
 end
