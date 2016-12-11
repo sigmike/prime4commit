@@ -1,4 +1,5 @@
-= form.fields_for :tips, tip, child_index: rand(1<<160) do |fields|
+- index = "#{(Time.now.to_f * 1000000).round}#{SecureRandom.random_number(1_000_000).to_s.rjust(6, '0')}"
+= form.fields_for :tips, tip, child_index: index do |fields|
   - user = tip.user
   - raise "An user is required" unless user
   %tr
