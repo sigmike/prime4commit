@@ -339,6 +339,30 @@ Feature: Fundraisers can distribute funds
     And the project balance should be "0.00"
 
   @javascript
+  Scenario: Send all the funds while some tips were refunded
+    Given a GitHub user "bob" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
+
+    Given a project managed by "alice"
+    And our fee is "0"
+    And a deposit of "500"
+    And a refunded tip of "50"
+
+    When I'm logged in as "alice"
+    And I go to the project page
+    And I click on "New distribution"
+    And I add the GitHub user "bob" to the recipients
+    And I fill the amount to "bob" with "500.00"
+    And I click on "Save"
+    Then I should not see "Not enough funds"
+
+    When I click on "Send the transaction"
+    Then I should see "Transaction sent"
+    And these amounts should have been sent from the account of the project:
+      | address                            | amount |
+      | mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1 |  500.0 |
+    And the project balance should be "0.00"
+
+  @javascript
   Scenario: Send 0 amount in a distribution
     Given a GitHub user "bob" who has set his address to "mxWfjaZJTNN5QKeZZYQ5HW3vgALFBsnuG1"
     And a GitHub user "carol" who has set his address to "mi9SLroAgc8eUNuLwnZmdyqWdShbNtvr3n"

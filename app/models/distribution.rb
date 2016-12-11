@@ -64,7 +64,7 @@ class Distribution < ActiveRecord::Base
     tips = project.tips.to_a
     tips -= self.tips
     tips += self.tips
-    if project.total_deposited < tips.map(&:amount).compact.sum
+    if project.total_deposited < tips.reject(&:refunded?).map(&:amount).compact.sum
       errors.add(:base, "Not enough funds")
     end
   end

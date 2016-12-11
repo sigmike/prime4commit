@@ -48,6 +48,10 @@ Given(/^a deposit of "(.*?)"$/) do |arg1|
   Deposit.create!(project: @project, amount: arg1.to_d * COIN, confirmations: 1, created_at: 2.minutes.ago)
 end
 
+Given(/^a refunded tip of "([^"]*)"$/) do |arg1|
+  Tip.create!(project: @project, amount: arg1.to_d * COIN, created_at: 2.minutes.ago, refunded_at: 1.minute.ago)
+end
+
 Given(/^the last known commit is "(.*?)"$/) do |arg1|
   @project.update!(last_commit: arg1)
 end
