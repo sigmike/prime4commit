@@ -13,7 +13,7 @@ Development
 
 To run peer4commit in development mode follow these instructions:
 
-* Install [Ruby](https://www.ruby-lang.org/en/downloads/) 1.9+
+* Install [Ruby](https://www.ruby-lang.org/en/downloads/) 2.0+
 
 * Install the [bundler](http://bundler.io/) gem (you may need root):
 ```
