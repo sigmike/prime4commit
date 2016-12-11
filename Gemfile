@@ -80,6 +80,7 @@ gem 'twitter-typeahead-rails'
 gem 'commontator', '~> 4.6.0'
 gem 'compass-rails'
 gem 'mime-types', '~> 2.99' # to support ruby 1.9
+gem 'public_suffix', '~> 1.4.6' # to support ruby 1.9
 
 group :test do
   gem 'cucumber-rails', :require => false
