@@ -195,9 +195,7 @@ GEM
     libv8 (3.16.14.3)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    mime-types (3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2016.0521)
+    mime-types (2.99.3)
     mini_portile2 (2.1.0)
     minitest (4.7.5)
     multi_json (1.12.1)
@@ -360,6 +358,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   less-rails
+  mime-types (~> 2.99)
   mysql2
   octokit
   omniauth
