@@ -1,3 +1,8 @@
+Before '@javascript' do
+  # https://github.com/teampoltergeist/poltergeist/issues/754#issuecomment-228433228
+  page.driver.clear_memory_cache
+end
+
 Given(/^I'm logged in as "(.*?)"$/) do |arg1|
   OmniAuth.config.test_mode = true
   OmniAuth.config.mock_auth[:github] = {
