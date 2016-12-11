@@ -5,7 +5,7 @@
 #= require twitter/typeahead
 #= require_tree .
 
-$(document).on "ready page:change", ->
+$(document).on "turbolinks:load", ->
   
   if $("body").data("environment") != "test"
     # Remove all global properties set by addthis, otherwise it won't reinitialize
