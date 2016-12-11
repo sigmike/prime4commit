@@ -35,6 +35,7 @@ class Project < ActiveRecord::Base
   end
 
   def get_commits
+    return [] if full_name.blank? or full_name !~ %r{\A[-\w.]+/[-\w.]+\Z}
     begin
       commits = Timeout::timeout(90) do
         client = Octokit::Client.new \
