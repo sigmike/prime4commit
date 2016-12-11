@@ -8,12 +8,6 @@ GIT
       omniauth-oauth2 (~> 1.1)
 
 GIT
-  remote: git://github.com/bootstrap-ruby/rails-bootstrap-forms.git
-  revision: 5512154e247861cd9e07942d04bf1fe64eecbe13
-  specs:
-    bootstrap_form (2.5.2)
-
-GIT
   remote: git://github.com/capistrano/rvm.git
   revision: 9cfef39cf0022839dca6b5b330dfefeb5fc363e7
   specs:
@@ -76,6 +70,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     arel (4.0.2)
     bcrypt (3.1.11)
+    bootstrap_form (2.3.0)
     builder (3.1.4)
     cancancan (1.15.0)
     capistrano (3.7.0)
@@ -360,7 +355,7 @@ PLATFORMS
 
 DEPENDENCIES
   airbrake
-  bootstrap_form!
+  bootstrap_form (~> 2.3.0)
   cancancan
   capistrano (~> 3.0)
   capistrano-bundler (>= 1.1.0)
