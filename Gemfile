@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.1.0'
+gem 'rails', '~> 4.2.0'
 
 # Databases
 gem 'sqlite3', group: :development
@@ -9,7 +9,7 @@ gem 'mysql2', group: :mysql
 gem 'pg', group: :postgresql
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.2'
+gem 'sass-rails'
 gem 'haml-rails'
 gem "less-rails"
 
@@ -21,7 +21,7 @@ gem 'kaminari'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
@@ -41,6 +41,7 @@ group :doc do
 end
 
 gem 'devise'
+gem 'test_after_commit', :group => :test # https://github.com/plataformatec/devise/blob/master/CHANGELOG.md#410
 gem 'omniauth'
 gem 'omniauth-github', github: 'alexandrz/omniauth-github', branch: 'provide_emails'
 gem 'cancancan'

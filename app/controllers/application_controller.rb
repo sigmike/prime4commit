@@ -21,6 +21,6 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:email, :name, :bitcoin_address, :current_password, :password, :password_confirmation) }
+    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :name, :bitcoin_address, :current_password, :password, :password_confirmation])
   end
 end

@@ -28,5 +28,7 @@ module T4c
     config.autoload_paths += %W(#{config.root}/lib)
 
     I18n.enforce_available_locales = false
+
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end
