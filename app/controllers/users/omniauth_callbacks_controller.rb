@@ -12,7 +12,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           :email => info['primary_email'],
           :nickname => info['nickname']
         )
-        @user.confirm!
+        @user.confirm
         @user.save!
       else
         set_flash_message(:error, :failure, kind: 'GitHub', reason: 'your primary email address should be verified.')

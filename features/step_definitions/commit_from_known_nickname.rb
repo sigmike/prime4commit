@@ -7,10 +7,10 @@ Given(/^the email of "(.*?)" is "(.*?)"$/) do |arg1, arg2|
 end
 
 Then(/^the tip for commit "(.*?)" is for user "(.*?)"$/) do |arg1, arg2|
-  Tip.find_by_commit!(arg1).user.nickname.should eq(arg2)
+  expect(Tip.find_by_commit!(arg1).user.nickname).to eq(arg2)
 end
 
 Then(/^there should be no user with email "(.*?)"$/) do |arg1|
-  User.where(email: arg1).size.should eq(0)
+  expect(User.where(email: arg1).size).to eq(0)
 end
 

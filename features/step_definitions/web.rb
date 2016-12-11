@@ -15,7 +15,7 @@ Given(/^I'm logged in as "(.*?)"$/) do |arg1|
   visit root_path
   click_on "Sign in"
   click_on "Sign in with Github"
-  page.should have_content("Successfully authenticated")
+  expect(page).to have_content("Successfully authenticated")
   OmniAuth.config.mock_auth[:github] = nil
   @current_user = User.find_by(nickname: arg1)
 end
@@ -35,15 +35,15 @@ Given(/^I'm not logged in$/) do
   visit root_path
   if page.has_content?("Sign Out")
     click_on "Sign Out"
-    page.should have_content("Signed out successfully")
+    expect(page).to have_content("Signed out successfully")
   else
-    page.should have_content("Sign in")
+    expect(page).to have_content("Sign in")
   end
 end
 
 When(/^I log out$/) do
   click_on "Sign Out"
-  page.should have_content "Signed out successfully"
+  expect(page).to have_content "Signed out successfully"
 end
 
 When(/^I log in as "(.*?)"$/) do |arg1|
@@ -82,15 +82,15 @@ Given(/^I uncheck "(.*?)"$/) do |arg1|
 end
 
 Then(/^I should see "(.*?)"$/) do |arg1|
-  page.should have_content(arg1)
+  expect(page).to have_content(arg1)
 end
 
 Then(/^I should not see "(.*?)"$/) do |arg1|
-  page.should have_no_content(arg1)
+  expect(page).to have_no_content(arg1)
 end
 
 Then(/^I should not see the button "(.*?)"$/) do |arg1|
-  page.should have_no_button(arg1)
+  expect(page).to have_no_button(arg1)
 end
 
 Given(/^I fill "(.*?)" with:$/) do |arg1, string|
@@ -103,22 +103,22 @@ end
 
 Then(/^I should see the project donation address$/) do
   address = @project.bitcoin_address
-  address.should_not be_blank
-  page.should have_content(address)
+  expect(address).not_to be_blank
+  expect(page).to have_content(address)
 end
 
 Then(/^I should see the project balance is "(.*?)"$/) do |arg1|
-  page.should have_content("Funds #{arg1}")
+  expect(page).to have_content("Funds #{arg1}")
 end
 
 Then(/^I should see a link "(.*?)" to "(.*?)"$/) do |arg1, arg2|
-  link = find("a", text: arg1, exact: true)
-  link["href"].should eq(arg2)
+  link = find("a", text: arg1)
+  expect(link["href"]).to eq(arg2)
 end
 
 Then(/^I should not see a link "(.*?)" to "(.*?)"$/) do |arg1, arg2|
-  link = all("a", text: arg1, exact: true).first
-  (link.nil? or link["href"] != arg2).should be_true
+  link = all("a", text: arg1).first
+  expect((link.nil? or link["href"] != arg2)).to be true
 end
 
 Then(/^I should not see the image "(.*?)"$/) do |arg1|
@@ -128,7 +128,7 @@ end
 When(/^I click on the "(.*?)" link in the email$/) do |arg1|
   begin
     link = Nokogiri::HTML.parse(@email.body.decoded).css("a").detect { |el| el.text == arg1 }
-    link.should_not be_nil
+    expect(link).not_to be_nil
   rescue
     puts @email.body
     raise
@@ -142,7 +142,7 @@ When(/^I click on "(.*?)" in the email$/) do |arg1|
 end
 
 Then(/^the user with email "(.*?)" should have his email confirmed$/) do |arg1|
-  User.find_by(email: arg1).confirmed?.should be_true
+  expect(User.find_by(email: arg1).confirmed?).to be true
 end
 
 When(/^I go to edit my profile$/) do

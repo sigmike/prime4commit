@@ -22,7 +22,7 @@ end
 
 Given(/^I add the GitHub user "(.*?)" to the recipients$/) do |arg1|
   within ".panel", text: "GitHub user" do
-    find("input:enabled").set(arg1)
+    find("input:enabled[name=\"user[nickname]\"]").set(arg1)
     click_on "Add"
   end
 end
@@ -38,7 +38,7 @@ end
 Given(/^I add the user with email "(.*?)" through his identifier to the recipients$/) do |arg1|
   user = User.find_by(email: arg1)
   within ".panel", text: "Peer4commit user" do
-    find("input:enabled").set(user.identifier)
+    find("input:enabled[name=\"user[identifier]\"]").set(user.identifier)
     click_on "Add"
   end
 end
@@ -51,7 +51,7 @@ end
 
 When(/^I add the commit "(.*?)" to the recipients$/) do |arg1|
   within ".panel", text: "Author of a commit" do
-    find("input:enabled").set(arg1)
+    find("input:enabled[name=\"commit[sha]\"]").set(arg1)
     click_on "Add"
   end
 end
@@ -105,28 +105,28 @@ Then(/^I should see these distribution lines:$/) do |table|
       puts "Rows: " + all("#distribution-show-page tbody tr").map(&:text).inspect
       raise
     end
-    tr.find(".recipient").text.should eq(recipient)
-    tr.find(".address").text.should eq(row["address"]) if row["address"]
-    tr.find(".reason").text.should eq(row["reason"]) if row["reason"]
+    expect(tr.find(".recipient").text).to eq(recipient)
+    expect(tr.find(".address").text).to eq(row["address"]) if row["address"]
+    expect(tr.find(".reason").text).to eq(row["reason"]) if row["reason"]
     if row["amount"]
       text = tr.find(".amount").text
       if row["amount"] =~ /\A[0-9.]+\Z/
-        text.to_d.should eq(row["amount"].to_d)
+        expect(text.to_d).to eq(row["amount"].to_d)
       else
-        text.should eq(row["amount"])
+        expect(text).to eq(row["amount"])
       end
     end
     if row["percentage"]
       text = tr.find(".percentage").text
       if row["percentage"] =~ /\A[0-9.]+\Z/
-        text.to_d.should eq(row["percentage"].to_d)
+        expect(text.to_d).to eq(row["percentage"].to_d)
       else
-        text.should eq(row["percentage"])
+        expect(text).to eq(row["percentage"])
       end
     end
-    tr.find(".tip-comment").text.should eq(row["comment"]) if row["comment"]
+    expect(tr.find(".tip-comment").text).to eq(row["comment"]) if row["comment"]
   end
-  table.hashes.size.should eq(all("#distribution-show-page tbody tr").size)
+  expect(table.hashes.size).to eq(all("#distribution-show-page tbody tr").size)
 end
 
 Then(/^the distribution form should have these recipients:$/) do |table|
@@ -138,22 +138,22 @@ Then(/^the distribution form should have these recipients:$/) do |table|
       p errors: all(".alert.alert-danger").map(&:text)
       raise
     end
-    tr.find(".recipient").text.should eq(row["recipient"])
-    tr.find(".reason").text.should eq(row["reason"]) if row["reason"]
+    expect(tr.find(".recipient").text).to eq(row["recipient"])
+    expect(tr.find(".reason").text).to eq(row["reason"]) if row["reason"]
     if row["amount"]
       text = tr.find_field("Amount").value
       if row["amount"] =~ /\A[0-9.]+\Z/
-        text.to_d.should eq(row["amount"].to_d)
+        expect(text.to_d).to eq(row["amount"].to_d)
       else
-        text.should eq(row["amount"])
+        expect(text).to eq(row["amount"])
       end
     end
     if row["comment"]
       text = tr.find_field("Comment").value
-      text.should eq(row["comment"])
+      expect(text).to eq(row["comment"])
     end
   end
-  all("#distribution-form tbody tr").size.should eq(table.hashes.size)
+  expect(all("#distribution-form tbody tr").size).to eq(table.hashes.size)
 end
 
 When(/^the tipper is started$/) do
@@ -161,7 +161,7 @@ When(/^the tipper is started$/) do
 end
 
 Then(/^no coins should have been sent$/) do
-  BitcoinDaemon.instance.list_transactions("*").should eq([])
+  expect(BitcoinDaemon.instance.list_transactions("*")).to eq([])
 end
 
 When(/^I set my address to "(.*?)"$/) do |arg1|
@@ -171,7 +171,7 @@ When(/^I set my address to "(.*?)"$/) do |arg1|
     fill_in "Current password", with: "password"
   end
   click_on "Update"
-  page.should have_content "You updated your account successfully"
+  expect(page).to have_content "You updated your account successfully"
 end
 
 When(/^I click on the last distribution$/) do
@@ -179,17 +179,17 @@ When(/^I click on the last distribution$/) do
 end
 
 Then(/^an email should have been sent to "(.*?)"$/) do |arg1|
-  ActionMailer::Base.deliveries.map(&:to).should include([arg1])
+  expect(ActionMailer::Base.deliveries.map(&:to)).to include([arg1])
   @email = ActionMailer::Base.deliveries.detect { |email| email.to == [arg1] }
 end
 
 Then(/^the email should include "(.*?)"$/) do |arg1|
-  @email.body.should include(arg1)
+  expect(@email.body).to include(arg1)
 end
 
 Then(/^the email should include a link to the last distribution$/) do
   distribution = Distribution.last
-  @email.body.should include(project_distribution_url(distribution.project, distribution))
+  expect(@email.body).to include(project_distribution_url(distribution.project, distribution))
 end
 
 When(/^I visit the link to set my password and address from the email$/) do
@@ -197,14 +197,14 @@ When(/^I visit the link to set my password and address from the email$/) do
 end
 
 Then(/^the user with email "(.*?)" should have "(.*?)" as password$/) do |arg1, arg2|
-  User.find_by(email: arg1).valid_password?(arg2).should eq(true)
+  expect(User.find_by(email: arg1).valid_password?(arg2)).to eq(true)
 end
 
 Then(/^the user with email "(.*?)" should have "(.*?)" as peercoin address$/) do |arg1, arg2|
-  User.find_by(email: arg1).bitcoin_address.should eq(arg2)
+  expect(User.find_by(email: arg1).bitcoin_address).to eq(arg2)
 end
 
 Given(/^I save the distribution$/) do
   click_on "Save"
-  page.should have_content(/Distribution (created|updated)/)
+  expect(page).to have_content(/Distribution (created|updated)/)
 end
