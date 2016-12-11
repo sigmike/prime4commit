@@ -13,7 +13,7 @@ gem 'sass-rails'
 gem 'haml-rails'
 gem "less-rails"
 
-gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails', branch: 'bootstrap3'
+gem 'twitter-bootstrap-rails', git: 'https://github.com/seyhunak/twitter-bootstrap-rails.git', branch: 'bootstrap3'
 
 gem 'kaminari'
 
@@ -43,9 +43,9 @@ end
 gem 'devise'
 gem 'test_after_commit', :group => :test # https://github.com/plataformatec/devise/blob/master/CHANGELOG.md#410
 gem 'omniauth'
-gem 'omniauth-github', github: 'alexandrz/omniauth-github', branch: 'provide_emails'
+gem 'omniauth-github', git: 'https://github.com/alexandrz/omniauth-github.git', branch: 'provide_emails'
 gem 'cancancan'
-gem 'twitter_bootstrap_form_for', github: 'stouset/twitter_bootstrap_form_for'
+gem 'twitter_bootstrap_form_for', git: 'https://github.com/stouset/twitter_bootstrap_form_for.git'
 
 gem 'octokit'
 
@@ -60,7 +60,7 @@ gem 'octokit'
 
 group :development do
   gem 'capistrano', '~> 3.0'
-  gem 'capistrano-rvm', github: 'capistrano/rvm'
+  gem 'capistrano-rvm', git: 'https://github.com/capistrano/rvm.git'
   gem 'capistrano-bundler', '>= 1.1.0'
   gem 'capistrano-rails'
   gem 'quiet_assets'

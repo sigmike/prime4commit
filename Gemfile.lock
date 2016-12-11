@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/alexandrz/omniauth-github.git
+  remote: https://github.com/alexandrz/omniauth-github.git
   revision: 37a030aa37659831ef80af21b5c7270fe1384b3c
   branch: provide_emails
   specs:
@@ -8,7 +8,7 @@ GIT
       omniauth-oauth2 (~> 1.1)
 
 GIT
-  remote: git://github.com/capistrano/rvm.git
+  remote: https://github.com/capistrano/rvm.git
   revision: 9cfef39cf0022839dca6b5b330dfefeb5fc363e7
   specs:
     capistrano-rvm (0.1.2)
@@ -16,7 +16,7 @@ GIT
       sshkit (~> 1.2)
 
 GIT
-  remote: git://github.com/seyhunak/twitter-bootstrap-rails.git
+  remote: https://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: 1d93c5a77049b3d21d17c847ad0531d7714fa229
   branch: bootstrap3
   specs:
@@ -27,7 +27,7 @@ GIT
       railties (>= 3.1)
 
 GIT
-  remote: git://github.com/stouset/twitter_bootstrap_form_for.git
+  remote: https://github.com/stouset/twitter_bootstrap_form_for.git
   revision: 830dbfd439ebb1194e1ae025100fc0e790be37cf
   specs:
     twitter_bootstrap_form_for (2.0.0.beta)
