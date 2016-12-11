@@ -16,6 +16,7 @@ Given(/^I'm logged in as "(.*?)"$/) do |arg1|
   click_on "Sign in"
   click_on "Sign in with Github"
   page.should have_content("Successfully authenticated")
+  OmniAuth.config.mock_auth[:github] = nil
   @current_user = User.find_by(nickname: arg1)
 end
 
