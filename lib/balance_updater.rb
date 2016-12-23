@@ -25,6 +25,10 @@ module BalanceUpdater
           category = transaction["category"]
           fee = transaction["fee"]
 
+          if category == "move"
+            next
+          end
+
           if category == "send" and distribution = Distribution.where(txid: txid).first
             raise "No fee on distribution #{distribution.inspect}" unless fee
             distribution.update(fee: -fee * COIN)
