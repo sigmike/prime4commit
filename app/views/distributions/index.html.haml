@@ -14,8 +14,8 @@
     %tbody
       - @distributions.each do |distribution|
         %tr
-          %td= l distribution.created_at, format: :short
-          %td= l distribution.sent_at, format: :short if distribution.sent_at
+          %td= l distribution.created_at
+          %td= l distribution.sent_at if distribution.sent_at
           %td.text-right= btc_human distribution.total_amount
           %td= link_to truncate(distribution.txid), transaction_url(distribution.txid), target: '_blank' if distribution.txid.present?
           %td= distribution.is_error ? "Error" : "Success" if distribution.sent?
