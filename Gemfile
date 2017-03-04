@@ -91,3 +91,4 @@ group :test do
   gem 'timecop'
   gem 'capybara-screenshot'
 end
+gem 'awesome_print', group: [:development, :test]
