@@ -35,7 +35,7 @@ module BalanceUpdater
             next
           end
 
-          if deposit = Deposit.find_by_txid(txid)
+          if deposit = project.deposits.find_by_txid(txid)
             deposit.update_attribute(:confirmations, confirmations)
             next
           end

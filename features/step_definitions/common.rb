@@ -36,7 +36,7 @@ Given(/^a project$/) do
   @project = Project.create!(name: "test", full_name: "example/test", bitcoin_address: 'mq4NtnmQoQoPfNWEPbhSvxvncgtGo6L8WY', address_label: "example_project_account", hold_tips: false)
 end
 
-Given(/^a project "(.*?)"$/) do |arg1|
+Given(/^a project "([^"]*?)"$/) do |arg1|
   @project = Project.create!(name: "test", full_name: "example/#{arg1}", bitcoin_address: 'mq4NtnmQoQoPfNWEPbhSvxvncgtGo6L8WY', hold_tips: false)
 end
 

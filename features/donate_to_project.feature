@@ -49,3 +49,22 @@ Feature: A visitor can donate to a project
 
     When I click on "List of donors"
     Then I should see the donor "No address provided" sent "50"
+
+  Scenario: Multiple donations in a single transaction
+    Given a project "A" with a donation address "mpD1oHHQqAWWrrfxzAg1gEWbHh2teQjYsU" associated with "mpR1otQoiJo8dfXzxyTmvPLg42n7RFJMMh"
+    And a project "B" with a donation address "mpD2oDRevAtG5Q24jRQx1GKpaZfxM8wh3y" associated with "mpR1otQoiJo8dfXzxyTmvPLg42n7RFJMMh"
+    And there's a new incoming transaction of "50" to "mpD1oHHQqAWWrrfxzAg1gEWbHh2teQjYsU" in transaction "tx1"
+    And there's a new incoming transaction of "75" to "mpD2oDRevAtG5Q24jRQx1GKpaZfxM8wh3y" in transaction "tx1"
+    And the project balances are updated
+
+    When I visit the project "A" page
+    Then I should see the project balance is "49.50"
+
+    When I click on "List of donors"
+    Then I should see the donor "mpR1otQoiJo8dfXzxyTmvPLg42n7RFJMMh" sent "50"
+
+    When I visit the project "B" page
+    Then I should see the project balance is "74.25"
+
+    When I click on "List of donors"
+    Then I should see the donor "mpR1otQoiJo8dfXzxyTmvPLg42n7RFJMMh" sent "75"

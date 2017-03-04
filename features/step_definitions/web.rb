@@ -101,6 +101,11 @@ When(/^I visit the project page$/) do
   visit project_path(@project)
 end
 
+When(/^I visit the project "([^"]*)" page$/) do |arg1|
+  @project = Project.find_by!(name: arg1)
+  step 'I visit the project page'
+end
+
 Then(/^I should see the project donation address$/) do
   address = @project.bitcoin_address
   expect(address).not_to be_blank
@@ -108,7 +113,12 @@ Then(/^I should see the project donation address$/) do
 end
 
 Then(/^I should see the project balance is "(.*?)"$/) do |arg1|
-  expect(page).to have_content("Funds #{arg1}")
+  begin
+    expect(page).to have_content("Funds #{arg1}")
+  rescue RSpec::Expectations::ExpectationNotMetError
+    ap Project.all.reduce({}) { |h, project| h.merge(project.name => project.deposits) }
+    raise
+  end
 end
 
 Then(/^I should see a link "(.*?)" to "(.*?)"$/) do |arg1, arg2|

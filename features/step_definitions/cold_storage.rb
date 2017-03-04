@@ -31,7 +31,7 @@ When(/^there's a new outgoing transaction of "(.*?)" to address "(.*?)" on the p
   BitcoinDaemon.instance.add_transaction(category: "send", account: @project.address_label, amount: -arg1.to_d, address: arg2, confirmations: arg3.to_i)
 end
 
-When(/^the project balance is updated$/) do
+When(/^the project (?:balance is|balances are) updated$/) do
   BalanceUpdater.work
 end
 
