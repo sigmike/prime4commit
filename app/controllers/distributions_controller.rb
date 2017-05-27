@@ -49,7 +49,7 @@ class DistributionsController < ApplicationController
       user = User.enabled.where(nickname: params[:user][:nickname]).first_or_initialize
       if user.new_record?
         raise "Invalid GitHub user" unless user.valid_github_user?
-        user.confirm!
+        user.confirm
         user.save!
       end
       @tips << Tip.new(user: user)

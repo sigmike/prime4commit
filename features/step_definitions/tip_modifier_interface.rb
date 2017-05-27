@@ -27,31 +27,31 @@ When(/^I send a forged request to enable tip holding on the project$/) do
 end
 
 Then(/^I should see an access denied$/) do
-  page.should have_content("Access denied")
+  expect(page).to have_content("Access denied")
 end
 
 Then(/^the project should not hold tips$/) do
-  @project.reload.hold_tips.should be_false
+  expect(@project.reload.hold_tips).to be false
 end
 
 Then(/^the project should hold tips$/) do
-  @project.reload.hold_tips.should be_true
+  expect(@project.reload.hold_tips).to be true
 end
 
 Given(/^the project has undedided tips$/) do
   create(:undecided_tip, project: @project)
-  @project.reload.should have_undecided_tips
+  expect(@project.reload).to have_undecided_tips
 end
 
 Given(/^the project has (\d+) undecided tip$/) do |arg1|
   @project.tips.undecided.each(&:destroy)
   create(:undecided_tip, project: @project)
-  @project.reload.should have_undecided_tips
+  expect(@project.reload).to have_undecided_tips
 end
 
 Given(/^I send a forged request to set the amount of the first undecided tip of the project$/) do
   tip = @project.tips.undecided.first
-  tip.should_not be_nil
+  expect(tip).not_to be_nil
   params = {
     project: {
       tips_attributes: {
@@ -69,7 +69,7 @@ end
 When(/^I send a forged request to change the percentage of commit "(.*?)" on project "(.*?)" to "(.*?)"$/) do |arg1, arg2, arg3|
   project = find_project(arg2)
   tip = project.tips.detect { |t| t.commit == arg1 }
-  tip.should_not be_nil
+  expect(tip).not_to be_nil
   params = {
     project: {
       tips_attributes: {
@@ -85,9 +85,9 @@ When(/^I send a forged request to change the percentage of commit "(.*?)" on pro
 end
 
 Then(/^the project should have (\d+) undecided tips$/) do |arg1|
-  @project.tips.undecided.size.should eq(arg1.to_i)
+  expect(@project.tips.undecided.size).to eq(arg1.to_i)
 end
 
 Then(/^there should be (\d+) tip$/) do |arg1|
-  @project.reload.tips.size.should eq(arg1.to_i)
+  expect(@project.reload.tips.size).to eq(arg1.to_i)
 end

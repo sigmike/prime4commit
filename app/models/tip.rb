@@ -4,7 +4,7 @@ class Tip < ActiveRecord::Base
   belongs_to :project, inverse_of: :tips
   belongs_to :reason, polymorphic: true
 
-  validates :amount, numericality: {greater_or_equal_than: 0, allow_nil: true}
+  validate :validate_amount_is_positive
   validate :validate_reason
 
   scope :not_sent,      -> { where(distribution_id: nil) }
@@ -85,7 +85,7 @@ class Tip < ActiveRecord::Base
   def notify_user
     if amount and amount > 0 and user and user.bitcoin_address.blank? and !user.unsubscribed
       if user.notified_at.nil? or user.notified_at < 30.days.ago
-        UserMailer.new_tip(user, self).deliver
+        UserMailer.new_tip(user, self).deliver_now
         user.touch :notified_at
       end
     end
@@ -126,6 +126,12 @@ class Tip < ActiveRecord::Base
       errors.add(:reason_id, :invalid) unless project.commits.include?(reason)
     else
       errors.add(:reason_type, :invalid)
+    end
+  end
+
+  def validate_amount_is_positive
+    if amount and amount < 0
+      errors.add(:amount, "must be positive")
     end
   end
 end

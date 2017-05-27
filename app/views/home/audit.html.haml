@@ -26,6 +26,8 @@
               %th.money
                 %abbr{title: "Amount currently in cold storage (see below)."} Amount in cold storage
               %th.money
+                %abbr{title: "Distributions that were not actually processed, either because they failed or because they were not validated"} Not sent
+              %th.money
                 %abbr{title: "Available balance + tips not sent - amount in cold storage + fee - transaction fee."} Expected account balance
               %th.money
                 %abbr{title: "The balance of the project account as reported by the Primecoin daemon."} Account balance
@@ -45,7 +47,8 @@
                 %td.money= btc_human(unpaid    = project.tips.select(&:unpaid?).map(&:amount).compact.sum)
                 %td.money= btc_human(txfee     = project.paid_fee, precision: 2)
                 %td.money= btc_human(cold      = project.cold_storage_amount)
-                %td.money= btc_human(expected  = available + unpaid - cold + fee - txfee) if available and unpaid and cold and fee and txfee
+                %td.money= btc_human(not_sent  = project.not_sent_distributions_amount)
+                %td.money= btc_human(expected  = available + unpaid - cold + fee - txfee + not_sent) if available and unpaid and cold and fee and txfee
                 %td.money= btc_human(account   = project.account_balance)
                 %td.money= btc_human(account - expected, precision: 2) if account and expected
         %tbody
@@ -57,7 +60,8 @@
             %td.money= btc_human(unpaid    = projects.map(&:tips).flatten.select(&:unpaid?).map(&:amount).compact.sum)
             %td.money= btc_human(txfee     = projects.map(&:paid_fee).compact.sum, precision: 2)
             %td.money= btc_human(cold      = projects.map(&:cold_storage_amount).compact.sum)
-            %td.money= btc_human(expected  = available + unpaid - cold + fee - txfee) if available and unpaid and cold and fee and txfee
+            %td.money= btc_human(not_sent  = projects.map(&:not_sent_distributions_amount).compact.sum)
+            %td.money= btc_human(expected  = available + unpaid - cold + fee - txfee + not_sent) if available and unpaid and cold and fee and txfee
             %td.money= btc_human(account   = projects.map(&:account_balance).compact.sum)
             %td.money= btc_human(account - expected, precision: 2) if account and expected
 

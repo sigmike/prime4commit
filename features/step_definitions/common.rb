@@ -4,7 +4,7 @@ end
 
 Then(/^there should be (\d+) email sent$/) do |arg1|
   begin
-    ActionMailer::Base.deliveries.size.should eq(arg1.to_i)
+    expect(ActionMailer::Base.deliveries.size).to eq(arg1.to_i)
   rescue
     p ActionMailer::Base.deliveries
     raise
@@ -17,7 +17,7 @@ Then(/^(\d+) email should have been sent$/) do |arg1|
 end
 
 Then(/^no email should have been sent$/) do
-  ActionMailer::Base.deliveries.should eq([])
+  expect(ActionMailer::Base.deliveries).to eq([])
 end
 
 When(/^the email counters are reset$/) do
@@ -36,7 +36,7 @@ Given(/^a project$/) do
   @project = Project.create!(name: "test", full_name: "example/test", bitcoin_address: 'mq4NtnmQoQoPfNWEPbhSvxvncgtGo6L8WY', address_label: "example_project_account", hold_tips: false)
 end
 
-Given(/^a project "(.*?)"$/) do |arg1|
+Given(/^a project "([^"]*?)"$/) do |arg1|
   @project = Project.create!(name: "test", full_name: "example/#{arg1}", bitcoin_address: 'mq4NtnmQoQoPfNWEPbhSvxvncgtGo6L8WY', hold_tips: false)
 end
 
@@ -46,6 +46,10 @@ end
 
 Given(/^a deposit of "(.*?)"$/) do |arg1|
   Deposit.create!(project: @project, amount: arg1.to_d * COIN, confirmations: 1, created_at: 2.minutes.ago)
+end
+
+Given(/^a refunded tip of "([^"]*)"$/) do |arg1|
+  Tip.create!(project: @project, amount: arg1.to_d * COIN, created_at: 2.minutes.ago, refunded_at: 1.minute.ago)
 end
 
 Given(/^the last known commit is "(.*?)"$/) do |arg1|
@@ -115,28 +119,28 @@ end
 
 When(/^the new commits are read$/) do
   @project.reload
-  @project.should_receive(:get_commits).and_return(@commits.values.map(&:to_ostruct))
+  expect(@project).to receive(:get_commits).and_return(@commits.values.map(&:to_ostruct))
   @project.update_commits
-  @project.should_receive(:get_commits).and_return(@commits.values.map(&:to_ostruct))
+  expect(@project).to receive(:get_commits).and_return(@commits.values.map(&:to_ostruct))
   @project.tip_commits
 end
 
 Then(/^there should be no tip for commit "(.*?)"$/) do |arg1|
-  Tip.where(commit: arg1).to_a.should eq([])
+  expect(Tip.where(commit: arg1).to_a).to eq([])
 end
 
 Then(/^there should be a tip of "(.*?)" for commit "(.*?)"$/) do |arg1, arg2|
   amount = Tip.find_by(commit: arg2).amount
-  amount.should_not be_nil
-  (amount.to_d / COIN).should eq(arg1.to_d)
+  expect(amount).not_to be_nil
+  expect((amount.to_d / COIN)).to eq(arg1.to_d)
 end
 
 Then(/^the tip amount for commit "(.*?)" should be undecided$/) do |arg1|
-  Tip.find_by(commit: arg1).undecided?.should be_true
+  expect(Tip.find_by(commit: arg1).undecided?).to be true
 end
 
 Then(/^the new last known commit should be "(.*?)"$/) do |arg1|
-  @project.reload.last_commit.should eq(arg1)
+  expect(@project.reload.last_commit).to eq(arg1)
 end
 
 Given(/^the project collaborators are:$/) do |table|
@@ -155,7 +159,8 @@ end
 
 Given(/^a project managed by "(.*?)"$/) do |arg1|
   user = create(:user, email: "#{arg1}@example.com", nickname: arg1)
-  user.confirm!
+  user.confirm
+  user.save!
   @project = Project.create!(name: "#{arg1} project", bitcoin_address: 'mq4NtnmQoQoPfNWEPbhSvxvncgtGo6L8WY', address_label: "example_project_account")
   @project.collaborators.create!(login: arg1)
 end
@@ -185,14 +190,14 @@ Then(/^pending$/) do
 end
 
 Then(/^these amounts should have been sent from the account of the project:$/) do |table|
-  BitcoinDaemon.instance.list_transactions(@project.address_label).map do |tx|
+  expect(BitcoinDaemon.instance.list_transactions(@project.address_label).map do |tx|
     if tx["category"] == "send"
       {
         "address" => tx["address"],
         "amount" => (-tx["amount"]).to_s,
       }
     end
-  end.compact.should eq(table.hashes)
+  end.compact).to eq(table.hashes)
 end
 
 When(/^the transaction history is cleared$/) do

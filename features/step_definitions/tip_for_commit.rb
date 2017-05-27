@@ -9,7 +9,7 @@ end
 
 Given(/^the commits on GitHub for project "(.*?)" are$/) do |arg1, table|
   @project.reload
-  @project.full_name.should eq(arg1)
+  expect(@project.full_name).to eq(arg1)
   commits = []
   table.hashes.each do |row|
     commit = OpenStruct.new(
@@ -30,7 +30,7 @@ Given(/^the commits on GitHub for project "(.*?)" are$/) do |arg1, table|
     commits << commit
   end
     
-  @project.should_receive(:get_commits).and_return(commits)
+  expect(@project).to receive(:get_commits).and_return(commits)
 end
 
 When(/^the project tips are built from commits$/) do
@@ -44,5 +44,5 @@ Then(/^the project should have these tips:$/) do |table|
       amount: tip.amount ? (tip.amount.to_f / COIN).to_s : "",
     }.with_indifferent_access
   end
-  tips.should eq(table.hashes)
+  expect(tips).to eq(table.hashes)
 end

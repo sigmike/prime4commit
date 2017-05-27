@@ -25,13 +25,17 @@ module BalanceUpdater
           category = transaction["category"]
           fee = transaction["fee"]
 
+          if category == "move"
+            next
+          end
+
           if category == "send" and distribution = Distribution.where(txid: txid).first
             raise "No fee on distribution #{distribution.inspect}" unless fee
             distribution.update(fee: -fee * COIN)
             next
           end
 
-          if deposit = Deposit.find_by_txid(txid)
+          if deposit = project.deposits.find_by_txid(txid)
             deposit.update_attribute(:confirmations, confirmations)
             next
           end

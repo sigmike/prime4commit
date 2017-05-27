@@ -35,6 +35,7 @@ class Project < ActiveRecord::Base
   end
 
   def get_commits
+    return [] if full_name.blank? or full_name !~ %r{\A[-\w.]+/[-\w.]+\Z}
     begin
       commits = Timeout::timeout(90) do
         client = Octokit::Client.new \
@@ -45,7 +46,7 @@ class Project < ActiveRecord::Base
       end
     rescue Octokit::BadGateway, Octokit::NotFound, Octokit::InternalServerError,
            Errno::ETIMEDOUT, Faraday::Error::ConnectionFailed, Octokit::Forbidden,
-           Octokit::Conflict => e
+           Octokit::Conflict, Octokit::ClientError => e
       Rails.logger.info "Project ##{id}: #{e.class} happened"
     rescue StandardError => e
       if CONFIG["airbrake"]
@@ -222,5 +223,9 @@ class Project < ActiveRecord::Base
 
   def to_label
     name.presence || id.to_s
+  end
+
+  def not_sent_distributions_amount
+    distributions.select { |d| d.is_error or !d.sent? }.map(&:tips).flatten.map(&:amount).compact.sum
   end
 end

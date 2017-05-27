@@ -69,7 +69,9 @@
                     - @project.distributions.order(created_at: :desc).limit(5).each do |distribution|
                       %li.distribution-link
                         - label = btc_human(distribution.total_amount)
-                        - if distribution.sent?
+                        - if distribution.is_error?
+                          - label << " failed"
+                        - elsif distribution.sent?
                           - if distribution.sent_at
                             - label << " sent #{time_ago_in_words(distribution.sent_at)} ago"
                           - else
